@@ -511,11 +511,15 @@ class MBeneficiario extends CI_Model{
 				$this->fecha_ultimo_ascenso = $val->f_ult_ascenso;
 				$this->no_ascenso = $val->st_no_ascenso;
 				$this->profesionalizacion = $val->st_profesion;
-        $this->monto_especial = $val->monto_especial;
-				$this->fecha_retiro = $val->f_retiro;
+        		$this->monto_especial = $val->monto_especial;
+				// $this->fecha_retiro = $val->f_retiro;
+				$this->fecha_retiro = date('Y-m-d');
 				$this->grado_codigo = $val->grado_id;
-        $fecha = $val->f_retiro;
-				$this->fecha_retiro_efectiva = $val->f_retiro_efectiva;
+				$fecha = date('Y-m-d');
+        		// $fecha = $val->f_retiro;
+				
+				// $this->fecha_retiro_efectiva = $val->f_retiro_efectiva;
+				$this->fecha_retiro_efectiva = date('Y-m-d');
 				$this->numero_cuenta = $val->numero_cuenta;
 				$this->motivo_paralizacion = $val->motivo_paralizacion;
 				$this->fecha_reincorporacion = $val->f_reincorporacion;
