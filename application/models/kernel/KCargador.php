@@ -225,6 +225,16 @@ class KCargador extends CI_Model{
     
     $this->MedidaJudicial = $this->KMedidaJudicial->Cargar($this->_MapWNomina["nombre"]);
     $this->Archivos = $this->KArchivos->Cargar($this->_MapWNomina);
+    $tipo = 'ACT';
+    switch ($this->_MapWNomina["tipo"]) {
+      case 'OFIC':
+        # code...
+        break;
+      
+      default:
+        # code...
+        break;
+    }
     $sConsulta = "
       SELECT
         regexp_replace(bnf.nombres, '[^a-zA-Y0-9 ]', '', 'g') as nombres,
@@ -238,7 +248,7 @@ class KCargador extends CI_Model{
         JOIN
           grado ON bnf.grado_id=grado.codigo AND bnf.componente_id= grado.componente_id
         WHERE 
-          bnf.situacion = '" . $this->_MapWNomina["tipo"] . "'
+          bnf.situacion = '" . $tipo . "'
           AND
           bnf.status_id = 201
           -- AND bnf.anio_reconocido > 0 AND bnf.mes_reconocido > 0 AND bnf.dia_reconocido > 0
@@ -246,11 +256,12 @@ class KCargador extends CI_Model{
           -- AND bnf.cedula IN ( '18214241', '12488541','15683209', '236810', '9698574.','12834431', '11113890', '1636273' )
           -- AND bnf.cedula='7391293' --RCP '4262481' --FCP='15236250' 
           -- grado.codigo NOT IN(8450, 8510, 8500, 8460, 8470, 8480, 5320) 
+          AND grado.codigo IN(2090,2080,2070,1060,1050,1040,30,20,15,10)
         ORDER BY grado.codigo
-          -- AND grado.codigo IN( 10, 15)
+          
           -- LIMIT 190 OFFSET 10
           -- LIMIT 10";
-    
+    //echo "$sConsulta";
     $con = $this->DBSpace->consultar($sConsulta);
     $this->functionRefelxion = "generarConPatrones";
     $strNombre = $this->_MapWNomina["nombre"];

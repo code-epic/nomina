@@ -66,63 +66,61 @@ class KNomina extends CI_Model{
   }
 
   public function Contar(){
-    $sConsulta = "SELECT count(*) as cantidad FROM familiar fam 
-      JOIN beneficiario bnf ON fam.titular=bnf.cedula 
-      WHERE fam.estatus = 201 AND bnf.grado_id != 0";
+    $sConsulta = "SELECT count(*) as cantidad FROM beneficiario bnf 
+    WHERE bnf.status_id = 201 and bnf.grado_id in (2090,2080,2070,1060,1050,1040,30,20,15,10)";
     $obj = $this->DBSpace->consultar($sConsulta);
-    $sobrevive = array();
+    $data = array();
     foreach($obj->rs as $c => $v ){
-      $sobrevive['act'] = $v->cantidad;
+      $data['OFIC'] = $v->cantidad;
     }
 
     //
-    $sConsulta = "SELECT count(*) as cantidad FROM familiar fam 
-      JOIN beneficiario bnf ON fam.titular=bnf.cedula 
-      WHERE fam.estatus != 201 AND bnf.grado_id != 0";
+    $sConsulta = "SELECT count(*) as cantidad FROM beneficiario bnf 
+    WHERE bnf.status_id = 201 and bnf.grado_id in (6390,6380,6370,6360,6350,6340,6330)";
     $obj = $this->DBSpace->consultar($sConsulta);
     
     foreach($obj->rs as $c => $v ){
-      $sobrevive['par'] = $v->cantidad;
+      $data['TROPF'] = $v->cantidad;
     }
 
 
+    $paralizado  = "";
+    // $sConsulta = "SELECT situacion, count(situacion) AS cantidad FROM beneficiario WHERE
+    // grado_id != 0 AND status_id = 201 GROUP BY situacion";
+    // $obj = $this->DBSpace->consultar($sConsulta);
+    // $contar = array();
+    // foreach($obj->rs as $c => $v ){
+    //   if($v->situacion != "FCP"){
+    //     $contar[] = array(
+    //             "situacion" => $v->situacion, 
+    //             "cantidad" => $v->cantidad);
+    //   }
+    //   else{
+    //     $contar[] = array(
+    //       "situacion" => $v->situacion, 
+    //       "cantidad" => $data['act']);
+    //   }
+    // }
 
-    $sConsulta = "SELECT situacion, count(situacion) AS cantidad FROM beneficiario WHERE
-    grado_id != 0 AND status_id = 201 GROUP BY situacion";
-    $obj = $this->DBSpace->consultar($sConsulta);
-    $contar = array();
-    foreach($obj->rs as $c => $v ){
-      if($v->situacion != "FCP"){
-        $contar[] = array(
-                "situacion" => $v->situacion, 
-                "cantidad" => $v->cantidad);
-      }
-      else{
-        $contar[] = array(
-          "situacion" => $v->situacion, 
-          "cantidad" => $sobrevive['act']);
-      }
-    }
-
-    $sConsulta = "SELECT situacion, count(situacion) AS cantidad FROM beneficiario WHERE
-    grado_id != 0 AND status_id != 201 GROUP BY situacion";
-    $obj = $this->DBSpace->consultar($sConsulta);
-    $paralizado = array();
-    foreach($obj->rs as $c => $v ){
-      if($v->situacion != "FCP"){
-        $paralizado[] = array(
-                "situacion" => $v->situacion, 
-                "cantidad" => $v->cantidad);
-      }
-      else{
-        $paralizado[] = array(
-         "situacion" => $v->situacion, 
-          "cantidad" => $sobrevive['par']);
-      }
-    }
+    // $sConsulta = "SELECT situacion, count(situacion) AS cantidad FROM beneficiario WHERE
+    // grado_id != 0 AND status_id != 201 GROUP BY situacion";
+    // $obj = $this->DBSpace->consultar($sConsulta);
+    // $paralizado = array();
+    // foreach($obj->rs as $c => $v ){
+    //   if($v->situacion != "FCP"){
+    //     $paralizado[] = array(
+    //             "situacion" => $v->situacion, 
+    //             "cantidad" => $v->cantidad);
+    //   }
+    //   else{
+    //     $paralizado[] = array(
+    //      "situacion" => $v->situacion, 
+    //       "cantidad" => $data['par']);
+    //   }
+    // }
 
     
-    return array('act' => $contar, 'par' => $paralizado);
+    return array('act' => $data, 'par' => $paralizado);
   }
 
   public function Listar($mes = "", $id = "", $ano = ""){

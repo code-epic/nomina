@@ -332,9 +332,11 @@ class WServer extends REST_Controller{
 		$lst = $this->KNomina->ListarPagos();
 		$this->response($lst);
     }
+
     function listarpagosdetalles_post(){        
         $this->load->model('kernel/KNomina');
         $data = $this->post();
+        // print_r($data);
 		$lst = $this->KNomina->ListarPagosDetalles($data);
 		$this->response($lst);
     }
