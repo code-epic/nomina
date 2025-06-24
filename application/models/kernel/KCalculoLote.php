@@ -122,6 +122,7 @@ class KCalculoLote extends CI_Model{
       $prima_profesionalizacion_mt = $this->Beneficiario->prima_profesionalizacion_mt;
       $porcentaje_profesionalizacion = $this->Beneficiario->prima_profesionalizacion_mt; 
       $adultoMayor = $this->Beneficiario->adultoMayor?1:0;
+      $frontera_tipo = $this->Beneficiario->frontera_tipo;
       
 
       $total_primas = 0;
@@ -154,7 +155,7 @@ class KCalculoLote extends CI_Model{
           }
 
         }
-        $total_primas = $this->Beneficiario->monto_total_prima + $prima_profesionalizacion_mt;
+        $total_primas = $this->Beneficiario->monto_total_prima;
         $pension = (( $sueldo_basico +  $total_primas ) * $porcentaje_pension  ) / 100;
         
         
@@ -188,7 +189,7 @@ class KCalculoLote extends CI_Model{
       $this->Beneficiario->Concepto["sueldo_mensual"] = array(
         'mt' => round($sueldo_mensual,2), 
         'codi' => 'sueldo_mensual',
-        'ABV' =>  "PENSION MILITAR", 
+        'ABV' =>  "SUELDO", 
         'TIPO' => 1,
         'part' => '40701010101',
         'cuen' => ''
@@ -447,7 +448,8 @@ class KCalculoLote extends CI_Model{
   * @return int
   */
   function AntiguedadGrado(){
-      $anos = $this->__restarFecha($this->Beneficiario->fecha_ultimo_ascenso, $this->Beneficiario->fecha_retiro, TRUE);
+     $anos = $this->__restarFecha($this->Beneficiario->fecha_ultimo_ascenso, date('Y-m-d'), TRUE);
+      // $anos = $this->__restarFecha($this->Beneficiario->fecha_ultimo_ascenso, $this->Beneficiario->fecha_retiro, TRUE);
       $this->Beneficiario->antiguedad_grado = $anos['e'];
   }
 
@@ -465,7 +467,8 @@ class KCalculoLote extends CI_Model{
         $this->Beneficiario->tiempo_servicio = $anos['e'];
         $this->Beneficiario->tiempo_servicio_aux = $anos['n'];
       }else{
-        $anos = $this->__restarFecha($this->Beneficiario->fecha_ingreso, $this->Beneficiario->fecha_retiro);
+        $anos = $this->__restarFecha($this->Beneficiario->fecha_ingreso, date('Y-m-d'));
+        // $anos = $this->__restarFecha($this->Beneficiario->fecha_ingreso, $this->Beneficiario->fecha_retiro);
         $this->Beneficiario->tiempo_servicio = $anos['e'];
         $this->Beneficiario->tiempo_servicio_aux = $anos['n'];
       }    

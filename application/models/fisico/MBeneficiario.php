@@ -167,6 +167,16 @@ class MBeneficiario extends CI_Model{
 	var $fecha_reincorporacion = '';
 
 	/**
+	* @var string
+	*/
+	var $frontera_tipo;
+
+	/**
+	* @var double
+	*/
+	var $frontera_monto = 0.00;
+
+	/**
 	* @var double
 	*/
 	var $profesionalizacion;
