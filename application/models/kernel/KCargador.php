@@ -1109,7 +1109,7 @@ class KCargador extends CI_Model{
       $r .= $ruta[$i] . '/';
     }
     $strR = $r . 'tmp/' . $archivo . '-SQL';
-    $comando = 'cd tmp/; time ./load.sh ' . $strR . ' 2>&1';
+    $comando = 'cd tmp/; time ./load.sh ' . $strR . ' 2> log.txt 2>&1';
     exec($comando, $bash);
     $res[] = $bash;
 
